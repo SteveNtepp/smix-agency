@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>SMIX | Agence de croissance digitale & automatisation pour PME africaines</title>
+  <!-- TailwindCSS + Fonts + Basic CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #FFFFFF;
+      color: #111827;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, .font-heading {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.02);
+    }
+
+    .premium-shadow {
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.02);
+    }
+
+    .hover-lift {
+      transition: transform 0.25s ease, box-shadow 0.3s ease;
+    }
+    .hover-lift:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.15);
+    }
+
+    .gradient-border {
+      background: linear-gradient(135deg, #7B3FF2, #D946EF);
+      padding: 1px;
+      border-radius: 2rem;
+    }
+
+    @keyframes fadeUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up {
+      animation: fadeUp 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+    }
+    @keyframes float {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(2deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+    .float-shape {
+      animation: float 12s infinite ease-in-out;
+    }
+    .counter-number {
+      font-feature-settings: "tnum";
+      font-variant-numeric: tabular-nums;
+    }
+    /* Custom slider styles for ROI calculator */
+    input[type="range"] {
+      -webkit-appearance: none;
+      background: #E5E7EB;
+      height: 4px;
+      border-radius: 5px;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 18px;
+      width: 18px;
+      border-radius: 50%;
+      background: #7B3FF2;
+      cursor: pointer;
+      box-shadow: 0 0 5px rgba(123, 63, 242, 0.5);
+    }
+    /* Carousel animations */
+    @keyframes scrollLogos {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .carousel-track {
+      display: flex;
+      width: fit-content;
+      animation: scrollLogos 30s linear infinite;
+    }
+    .carousel-container:hover .carousel-track {
+      animation-play-state: paused;
+    }
+    /* FAQ accordion */
+    .faq-question {
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+    .faq-answer.open {
+      max-height: 300px;
+      transition: max-height 0.4s ease-in;
+    }
+    /* Service testimonial cards */
+    .service-testimonial-card {
+      transition: all 0.3s ease;
+    }
+    .testimonial-content {
+      display: none;
+    }
+    .service-testimonial-card.active .testimonial-content {
+      display: block;
+    }
+    /* Floating WhatsApp Widget */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 100;
+      background-color: #25D366;
+      border-radius: 50%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+    }
+    .whatsapp-float:hover {
+      transform: scale(1.08);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+    }
+    .whatsapp-float svg {
+      width: 34px;
+      height: 34px;
+      fill: white;
+    }
+    /* Tooltip for desktop */
+    .whatsapp-tooltip {
+      position: absolute;
+      right: 70px;
+      background: white;
+      color: #1F2A3A;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      pointer-events: none;
+    }
+    .whatsapp-float:hover .whatsapp-tooltip {
+      opacity: 1;
+      visibility: visible;
+    }
+    /* Scroll to top button - desktop (visible on all devices but positioned differently via media query) */
+    .scroll-top-btn {
+      position: fixed;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 99;
+      background: linear-gradient(135deg, #7B3FF2, #D946EF);
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(123, 63, 242, 0.3);
+      transition: all 0.3s ease;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.2s ease;
+    }
+    .scroll-top-btn.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+    .scroll-top-btn:hover {
+      transform: translateY(-50%) scale(1.08);
+      box-shadow: 0 6px 20px rgba(123, 63, 242, 0.4);
+    }
+    .scroll-top-btn svg {
+      width: 24px;
+      height: 24px;
+      stroke: white;
+      stroke-width: 2;
+      fill: none;
+    }
+    /* Hide desktop scroll button on mobile */
+    @media (max-width: 768px) {
+      .scroll-top-btn {
+        display: none;
+      }
+    }
+    /* Mobile adjustments for WhatsApp */
+    @media (max-width: 640px) {
+      .whatsapp-float {
+        width: 52px;
+        height: 52px;
+        bottom: 20px;
+        right: 20px;
+      }
+      .whatsapp-float svg {
+        width: 28px;
+        height: 28px;
+      }
+      .whatsapp-tooltip {
+        display: none;
+      }
+    }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#7B3FF2',
+            secondary: '#D946EF',
+            accent: '#4F7CFF',
+            darkText: '#111827',
+            grayLight: '#F5F7FA',
+            borderGray: '#E5E7EB',
+            grayText: '#6B7280',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Space Grotesk', 'sans-serif'],
+          },
+          borderRadius: {
+            'xl': '1rem',
+            '2xl': '1.5rem',
+            '3xl': '2rem',
+          },
+        }
+      }
+    }
+  </script>
+</head>
+<body class="antialiased">
+
+  <!-- Floating abstract shapes -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+    <div class="absolute top-20 left-[5%] w-72 h-72 bg-primary/5 rounded-full blur-3xl float-shape"></div>
+    <div class="absolute bottom-20 right-[5%] w-96 h-96 bg-secondary/5 rounded-full blur-3xl float-shape" style="animation-delay: -3s;"></div>
+    <div class="absolute top-1/3 left-[80%] w-60 h-60 bg-accent/5 rounded-full blur-3xl float-shape" style="animation-delay: -7s;"></div>
+  </div>
+
+  <!-- Floating WhatsApp Widget (bottom right) -->
+  <a href="https://wa.me/message/ZNLENKTKNWDHE1" target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="Discuter sur WhatsApp">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+      <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+    </svg>
+    <span class="whatsapp-tooltip">💬 Discuter avec nous</span>
+  </a>
+
+  <!-- Scroll to top button (desktop: right-center) -->
+  <div id="scrollTopBtn" class="scroll-top-btn" aria-label="Retour en haut">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="relative z-20 w-full py-5 px-6 md:px-12 border-b border-gray-100/80 bg-white/80 backdrop-blur-md sticky top-0">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <div class="flex items-center gap-2 cursor-pointer" id="logoHomeLink">
+        <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-secondary"></div>
+        <span class="font-heading text-2xl font-bold tracking-tight text-darkText">SMIX</span>
+      </div>
+      <div class="hidden md:flex gap-8 text-gray-600 font-medium">
+        <a href="#services" class="hover:text-primary transition">Services</a>
+        <a href="#offers" class="hover:text-primary transition">Offres</a>
+        <a href="#process" class="hover:text-primary transition">Process</a>
+        <a href="#casestudy" class="hover:text-primary transition">Cas clients</a>
+        <a href="#socialproof" class="hover:text-primary transition">Témoignages</a>
+        <a href="#faq" class="hover:text-primary transition">FAQ</a>
+        <a href="#contact" class="hover:text-primary transition">Contact</a>
+      </div>
+      <div>
+        <a href="https://wa.me/message/ZNLENKTKNWDHE1?text=Bonjour%20SMIX%2C%20je%20souhaite%20demander%20un%20devis%20personnalis%C3%A9%20pour%20mon%20entreprise." target="_blank" class="bg-darkText text-white px-5 py-2.5 rounded-full text-sm font-semibold shadow-md hover:bg-primary transition-all duration-300 hover:scale-105">Demander un devis</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="relative z-10">
+    <!-- HERO SECTION avec l'image dashboard-smix.png depuis le dossier assets/ -->
+    <section class="pt-16 md:pt-24 pb-20 px-6 md:px-12 overflow-hidden">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <div class="inline-flex items-center gap-2 bg-primary/10 rounded-full px-4 py-1.5 text-primary text-sm font-medium mb-6">
+              <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span></span>
+              Agence de croissance IA & automatisation
+            </div>
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-darkText leading-[1.1] mb-6">
+              Accélérez la <span class="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">croissance digitale</span> de votre PME
+            </h1>
+            <p class="text-lg text-grayText max-w-lg mb-6 leading-relaxed">
+              Nous aidons les PME à vendre, automatiser et grandir grâce au digital et à l'IA. 
+              Audit, automatisation, CRM, marketing & accompagnement premium.
+            </p>
+            <div class="bg-grayLight/50 p-4 rounded-2xl mb-8 border border-gray-100">
+              <p class="text-sm font-medium text-darkText">⭐ +45 entreprises accompagnées | 92% de taux de recommandation | ROI moyen +38% en 6 mois</p>
+            </div>
+            <div class="flex flex-wrap gap-4 mb-8">
+              <a href="https://wa.me/message/ZNLENKTKNWDHE1?text=Bonjour%20SMIX%2C%20je%20souhaite%20d%C3%A9marrer%20un%20projet%20de%20digitalisation%20avec%20vous." target="_blank" class="bg-darkText hover:bg-primary text-white px-8 py-3.5 rounded-full font-semibold transition-all shadow-lg hover:shadow-xl hover:scale-105">Démarrer un projet →</a>
+              <a href="https://wa.me/message/ZNLENKTKNWDHE1?text=Bonjour%20SMIX%2C%20je%20souhaite%20demander%20un%20devis%20pour%20vos%20services." target="_blank" class="border border-borderGray hover:border-primary/40 bg-white/60 backdrop-blur-sm px-8 py-3.5 rounded-full font-medium transition-all">Explorer les services</a>
+            </div>
+            <div class="flex gap-8 items-center">
+              <div class="flex -space-x-2"><div class="w-10 h-10 rounded-full bg-gray-200 border-2 border-white flex items-center justify-center text-xs font-bold">⭐</div><div class="w-10 h-10 rounded-full bg-gray-200 border-2 border-white flex items-center justify-center text-xs font-bold">🚀</div><div class="w-10 h-10 rounded-full bg-gray-200 border-2 border-white flex items-center justify-center text-xs font-bold">💡</div></div>
+              <span class="text-sm text-gray-500">Confiance de leaders <br>de l'industrie africaine</span>
+            </div>
+          </div>
+          <div class="relative flex justify-center">
+            <div class="gradient-border rounded-3xl bg-white shadow-2xl premium-shadow">
+              <div class="bg-white rounded-3xl p-3">
+                <!-- Image pointant vers le dossier assets/ -->
+                <img src="assets/dashboard-smix.png" alt="SMIX Dashboard - Performance IA & Automatisation" class="rounded-2xl w-full object-cover shadow-sm">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION NOTRE APPROCHE UNIQUE -->
+    <section class="py-24 px-6 md:px-12 bg-white">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-14">
+          <span class="text-primary font-semibold tracking-wide uppercase text-sm">Pourquoi SMIX</span>
+          <h2 class="text-3xl md:text-5xl font-bold mt-3">Notre approche unique</h2>
+          <p class="text-grayText max-w-2xl mx-auto mt-4">Ce qui fait la différence avec les agences traditionnelles</p>
+        </div>
+        <div class="grid md:grid-cols-3 lg:grid-cols-5 gap-6">
+          <div class="text-center p-5 rounded-2xl bg-grayLight/30 hover:shadow-md transition"><div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto text-2xl">📈</div><h4 class="font-bold mt-4">Croissance first</h4><p class="text-xs text-gray-500 mt-1">Nous ne faisons pas que du design, nous générons du ROI mesurable</p></div>
+          <div class="text-center p-5 rounded-2xl bg-grayLight/30 hover:shadow-md transition"><div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto text-2xl">🌍</div><h4 class="font-bold mt-4">Équipe locale</h4><p class="text-xs text-gray-500 mt-1">Nous connaissons le marché africain et ses spécificités</p></div>
+          <div class="text-center p-5 rounded-2xl bg-grayLight/30 hover:shadow-md transition"><div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto text-2xl">🧠</div><h4 class="font-bold mt-4">Stack IA propriétaire</h4><p class="text-xs text-gray-500 mt-1">Nos propres outils d'automatisation et dashboards</p></div>
+          <div class="text-center p-5 rounded-2xl bg-grayLight/30 hover:shadow-md transition"><div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto text-2xl">🔓</div><h4 class="font-bold mt-4">Transparence totale</h4><p class="text-xs text-gray-500 mt-1">Reporting en temps réel, pas de surprises</p></div>
+          <div class="text-center p-5 rounded-2xl bg-grayLight/30 hover:shadow-md transition"><div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto text-2xl">💬</div><h4 class="font-bold mt-4">Support WhatsApp dédié</h4><p class="text-xs text-gray-500 mt-1">Accompagnement réactif 6j/7</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES SECTION -->
+    <section id="services" class="py-24 px-6 md:px-12 bg-grayLight/40">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <span class="text-primary font-semibold tracking-wide uppercase text-sm">Expertise omnicanale</span>
+          <h2 class="text-3xl md:text-5xl font-bold mt-3 text-darkText">Tous nos services & tarifs transparents</h2>
+          <p class="text-grayText max-w-2xl mx-auto mt-4">Des solutions modulables, adaptées aux réalités des PME africaines : paiement en FCFA, support local, intégration WhatsApp.</p>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <div class="bg-white rounded-2xl p-6 premium-shadow border border-borderGray/60 hover-lift"><div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center mb-5">🌐</div><h3 class="text-xl font-bold mb-2">Sites Web</h3><p class="text-gray-500 text-sm mb-3">Présence digitale professionnelle, mobile-first, SEO.</p><ul class="text-sm space-y-1 text-gray-600 mb-4"><li>✓ Landing / Vitrine / E‑commerce</li><li>✓ Intégration WhatsApp & formulaires</li><li>✓ Hébergement & domaine optionnel</li></ul><p class="font-bold text-primary">dès 100 000 FCFA</p></div>
+          <div class="bg-white rounded-2xl p-6 premium-shadow border border-borderGray/60 hover-lift"><div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center mb-5">🤖</div><h3 class="text-xl font-bold mb-2">Automatisation</h3><p class="text-gray-500 text-sm mb-3">Workflows IA, WhatsApp Business API, Make/Zapier.</p><ul class="text-sm space-y-1 text-gray-600 mb-4"><li>✓ Lead nurturing & relances auto</li><li>✓ Génération devis & facturation</li><li>✓ Intégration CRM / Notion</li></ul><p class="font-bold text-primary">dès 150 000 FCFA</p></div>
+          <div class="bg-white rounded-2xl p-6 premium-shadow border border-borderGray/60 hover-lift"><div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center mb-5">📊</div><h3 class="text-xl font-bold mb-2">CRM & Gestion</h3><p class="text-gray-500 text-sm mb-3">Centralisez ventes, prospects & KPI dashboards.</p><ul class="text-sm space-y-1 text-gray-600 mb-4"><li>✓ Pipeline commercial & reporting</li><li>✓ CRM WhatsApp & automatisations</li><li>✓ Tableaux de bord temps réel</li></ul><p class="font-bold text-primary">dès 25 000 FCFA/mois</p></div>
+          <div class="bg-white rounded-2xl p-6 premium-shadow border border-borderGray/60 hover-lift"><div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center mb-5">📣</div><h3 class="text-xl font-bold mb-2">Marketing Digital</h3><p class="text-gray-500 text-sm mb-3">Meta Ads, Google Ads, tunnel WhatsApp convertissant.</p><ul class="text-sm space-y-1 text-gray-600 mb-4"><li>✓ Stratégie d'acquisition clients</li><li>✓ Retargeting & email marketing</li><li>✓ A/B testing & optimisation ROI</li></ul><p class="font-bold text-primary">dès 300 000 FCFA</p></div>
+          <div class="bg-white rounded-2xl p-6 premium-shadow border border-borderGray/60 hover-lift"><div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center mb-5">📱</div><h3 class="text-xl font-bold mb-2">Community Mgmt</h3><p class="text-gray-500 text-sm mb-3">Gestion experte Facebook, IG, LinkedIn, TikTok.</p><ul class="text-sm space-y-1 text-gray-600 mb-4"><li>✓ Calendrier éditorial & programmation</li><li>✓ Modération & animation communauté</li><li>✓ Rapport mensuel d'engagement</li></ul><p class="font-bold text-primary">dès 100 000 FCFA/mois</p></div>
+          <div class="bg-white rounded-2xl p-6 premium-shadow border border-borderGray/60 hover-lift"><div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center mb-5">🎨</div><h3 class="text-xl font-bold mb-2">Création de Contenu</h3><p class="text-gray-500 text-sm mb-3">Design graphique, motion, Reels, UGC.</p><ul class="text-sm space-y-1 text-gray-600 mb-4"><li>✓ Identité visuelle & templates</li><li>✓ Production vidéo & shooting</li><li>✓ Contenu IA génératif (ChatGPT, Midjourney)</li></ul><p class="font-bold text-primary">dès 15 000 FCFA</p></div>
+          <div class="bg-white rounded-2xl p-6 premium-shadow border border-borderGray/60 hover-lift"><div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center mb-5">🧠</div><h3 class="text-xl font-bold mb-2">Consulting IA</h3><p class="text-gray-500 text-sm mb-3">Audit stratégique & accompagnement transformation.</p><ul class="text-sm space-y-1 text-gray-600 mb-4"><li>✓ Diagnostic digital complet</li><li>✓ Feuille de route IA sur mesure</li><li>✓ Formation équipe & support continu</li></ul><p class="font-bold text-primary">dès 150 000 FCFA audit</p></div>
+          <div class="bg-gradient-to-br from-primary/5 to-secondary/5 rounded-2xl p-6 border border-primary/20 flex flex-col justify-center items-center text-center"><div class="text-3xl mb-2">⚡</div><p class="font-medium">Stack IA complète</p><p class="text-xs text-gray-500 mt-1">CRM + Automation + Analytics</p><p class="text-primary font-bold text-sm mt-2">Packs sur mesure</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OFFRES PHARES -->
+    <section id="offers" class="py-24 px-6 md:px-12 bg-white">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16"><h2 class="text-3xl md:text-5xl font-bold">Packs recommandés pour la croissance</h2><p class="text-grayText mt-4">Des formules tout-en-un pensées pour les PME ambitieuses, avec support dédié.</p></div>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="rounded-3xl border border-borderGray bg-white premium-shadow hover-lift p-8"><h3 class="text-2xl font-bold">PME Starter</h3><div class="mt-2 text-3xl font-bold text-darkText">250k <span class="text-base font-normal text-grayText">FCFA/mois</span></div><ul class="mt-6 space-y-3 text-gray-600 text-sm"><li>✓ Community management (1 réseau principal)</li><li>✓ 8 contenus premium / mois</li><li>✓ Micro-campagnes Meta Ads (budget inclus)</li><li>✓ Rapport mensuel de performance</li><li>✓ Support par WhatsApp 5j/7</li></ul><a href="https://wa.me/message/ZNLENKTKNWDHE1?text=Bonjour%20SMIX%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20le%20pack%20PME%20Starter%20%C3%A0%20250k%20FCFA/mois.%20Pouvez-vous%20me%20donner%20plus%20d'informations%20%3F" target="_blank" class="mt-8 block text-center border border-primary/40 rounded-full py-3 font-semibold hover:bg-primary hover:text-white transition">Choisir Starter</a></div>
+          <div class="rounded-3xl border-2 border-primary bg-white premium-shadow hover-lift p-8 relative overflow-hidden"><div class="absolute top-4 right-6 bg-primary/10 text-primary text-xs px-3 py-1 rounded-full font-bold">Recommandé</div><h3 class="text-2xl font-bold">PME Growth</h3><div class="mt-2 text-3xl font-bold text-darkText">500k <span class="text-base font-normal">FCFA/mois</span></div><ul class="mt-6 space-y-3 text-gray-700 text-sm"><li>✓ Marketing digital complet (Meta + Google Ads)</li><li>✓ Automatisation WhatsApp avancée</li><li>✓ Tunnel de conversion & landing page dédiée</li><li>✓ Dashboard KPI en temps réel</li><li>✓ CRM de base inclus</li><li>✓ Support prioritaire 6j/7</li></ul><a href="https://wa.me/message/ZNLENKTKNWDHE1?text=Bonjour%20SMIX%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20le%20pack%20PME%20Growth%20%C3%A0%20500k%20FCFA/mois.%20Pouvez-vous%20me%20faire%20une%20proposition%20%3F" target="_blank" class="mt-8 block text-center bg-primary text-white rounded-full py-3 font-semibold shadow-lg hover:shadow-xl transition">Choisir Growth →</a></div>
+          <div class="rounded-3xl border border-borderGray bg-white premium-shadow hover-lift p-8"><h3 class="text-2xl font-bold">PME Augmentée</h3><div class="mt-2 text-3xl font-bold text-darkText">1M <span class="text-base font-normal">FCFA/mois</span></div><ul class="mt-6 space-y-3 text-gray-600 text-sm"><li>✓ CRM complet & pipeline commercial</li><li>✓ Automatisations IA sur mesure</li><li>✓ Acquisition & dashboards avancés multi-canaux</li><li>✓ Consulting stratégique mensuel (4h/mois)</li><li>✓ Accompagnement transformation digitale + formation équipe</li><li>✓ Manager dédié & reporting hebdomadaire</li></ul><a href="https://wa.me/message/ZNLENKTKNWDHE1?text=Bonjour%20SMIX%2C%20je%20souhaite%20devenir%20%22PME%20Augment%C3%A9e%22%20avec%20le%20pack%20%C3%A0%201M%20FCFA/mois.%20Pouvons-nous%20%C3%A9changer%20%3F" target="_blank" class="mt-8 block text-center border border-borderGray rounded-full py-3 font-semibold hover:bg-darkText hover:text-white transition">Devenir Augmentée</a></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECHNOLOGIES & PARTENAIRES : Carrousel automatique -->
+    <section class="py-20 px-6 md:px-12 bg-grayLight/30 overflow-hidden">
+      <div class="max-w-7xl mx-auto text-center">
+        <h2 class="text-2xl md:text-4xl font-bold">Technologies & partenaires</h2>
+        <p class="text-grayText mt-3 mb-12">Nous maîtrisons les meilleurs outils pour votre transformation digitale</p>
+        <div class="carousel-container relative w-full overflow-hidden">
+          <div class="carousel-track flex gap-12 items-center whitespace-nowrap">
+            <span class="text-gray-500 font-semibold text-lg mx-6">Meta Partner</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">Google Ads</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">HubSpot</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">Make</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">Zapier</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">n8n</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">Odoo</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">Suno</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">LangChain</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">OpenAI</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">Gemini</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">Deepseek</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">Google AI Studio</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">Antigravity</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">Supabase</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">WhatsApp API</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">Shopify</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">WordPress</span>
+            <!-- Duplicate for seamless loop -->
+            <span class="text-gray-500 font-semibold text-lg mx-6">Meta Partner</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">Google Ads</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">HubSpot</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">Make</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">Zapier</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">n8n</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">Odoo</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">Suno</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">LangChain</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">OpenAI</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">Gemini</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">Deepseek</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">Google AI Studio</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">Antigravity</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">Supabase</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">WhatsApp API</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">Shopify</span>
+            <span class="text-gray-500 font-semibold text-lg mx-6">WordPress</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION SIMULATEUR ROI -->
+    <section class="py-24 px-6 md:px-12 bg-white">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-3xl md:text-5xl font-bold">Estimez votre retour sur investissement</h2>
+        <p class="text-grayText mt-3 mb-8">Simulez les revenus supplémentaires que vous pourriez générer avec SMIX</p>
+        <div class="bg-grayLight/40 rounded-3xl p-8 shadow-sm border">
+          <div class="mb-6 text-left"><label class="font-semibold">Nombre de leads entrants par mois :</label><input type="range" id="leadsSlider" min="0" max="500" value="100" class="w-full mt-2"><div class="flex justify-between text-sm text-gray-500"><span>0</span><span id="leadsValue" class="font-bold text-primary">100</span><span>500+</span></div></div>
+          <div class="mb-6 text-left"><label class="font-semibold">Panier moyen (FCFA) :</label><input type="range" id="basketSlider" min="0" max="500000" step="10000" value="150000" class="w-full mt-2"><div class="flex justify-between text-sm text-gray-500"><span>0</span><span id="basketValue" class="font-bold text-primary">150 000</span><span>500k+</span></div></div>
+          <div class="mt-8 p-5 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl"><p class="text-gray-600">📈 Revenu mensuel estimé après accompagnement SMIX :</p><p class="text-3xl md:text-4xl font-bold text-primary" id="roiResult">+1 500 000 FCFA</p><p class="text-xs text-gray-400 mt-2">*Estimation basée sur une augmentation moyenne de 30% du taux de conversion et 40% de leads supplémentaires après 3 mois</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION UNE CONFIANCE MESURABLE avec témoignages dynamiques par service -->
+    <section id="socialproof" class="py-20 px-6 md:px-12 bg-gradient-to-r from-primary/5 to-secondary/5">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-12 items-start">
+          <div><h2 class="text-3xl md:text-4xl font-bold">Une confiance mesurable</h2><p class="text-grayText mt-4">+45 PME en Afrique, un taux de rétention de 94% et des scores NPS élevés.</p><div class="grid grid-cols-3 gap-4 mt-8"><div><div class="text-3xl font-bold text-primary counter" data-target="45">0</div><p class="text-xs text-gray-500">PME accompagnées</p></div><div><div class="text-3xl font-bold text-primary counter" data-target="78">0</div><p class="text-xs text-gray-500">Projets IA livrés</p></div><div><div class="text-3xl font-bold text-primary counter" data-target="94">0</div><p class="text-xs text-gray-500">Taux de rétention %</p></div></div></div>
+          
+          <!-- Témoignages dynamiques par service -->
+          <div class="bg-white rounded-3xl p-6 glass-card border border-white/40">
+            <h3 class="font-bold text-lg mb-4 text-center">Ils témoignent pour chaque service</h3>
+            <div class="grid grid-cols-2 gap-3 mb-4">
+              <button class="service-btn text-xs bg-gray-100 hover:bg-primary/20 rounded-full px-3 py-2 transition" data-service="web">🌐 Sites Web</button>
+              <button class="service-btn text-xs bg-gray-100 hover:bg-primary/20 rounded-full px-3 py-2 transition" data-service="auto">🤖 Automatisation</button>
+              <button class="service-btn text-xs bg-gray-100 hover:bg-primary/20 rounded-full px-3 py-2 transition" data-service="crm">📊 CRM</button>
+              <button class="service-btn text-xs bg-gray-100 hover:bg-primary/20 rounded-full px-3 py-2 transition" data-service="marketing">📣 Marketing</button>
+              <button class="service-btn text-xs bg-gray-100 hover:bg-primary/20 rounded-full px-3 py-2 transition" data-service="cm">📱 Community</button>
+              <button class="service-btn text-xs bg-gray-100 hover:bg-primary/20 rounded-full px-3 py-2 transition" data-service="content">🎨 Contenu</button>
+              <button class="service-btn text-xs bg-gray-100 hover:bg-primary/20 rounded-full px-3 py-2 transition" data-service="consulting">🧠 Consulting</button>
+            </div>
+            <div id="dynamic-testimonial" class="p-4 bg-grayLight/30 rounded-xl italic text-gray-700 transition-all">
+              Cliquez sur un service pour voir un témoignage client associé.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESSOURCES EXCLUSIVES -->
+    <section class="py-24 px-6 md:px-12 bg-white">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-12"><h2 class="text-3xl md:text-5xl font-bold">Ressources exclusives</h2><p class="text-grayText">Téléchargez nos guides et accélérez votre transformation digitale</p></div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="bg-grayLight/40 rounded-2xl p-6 text-center hover-lift border"><div class="text-4xl mb-3">📘</div><h3 class="font-bold">Guide WhatsApp Automation</h3><p class="text-xs text-gray-500 my-1">PDF - 24 pages</p><p class="text-xs text-gray-400 mt-1 mb-3">Découvrez comment automatiser votre service client et générer des leads 24h/24 sur WhatsApp.</p><a href="#" class="text-primary text-sm font-medium">Télécharger gratuitement →</a></div>
+          <div class="bg-grayLight/40 rounded-2xl p-6 text-center hover-lift border"><div class="text-4xl mb-3">📊</div><h3 class="font-bold">Template Dashboard Excel</h3><p class="text-xs text-gray-500 my-1">Tableau de bord KPI</p><p class="text-xs text-gray-400 mt-1 mb-3">Suivez vos ventes, leads et performances commerciales avec ce template prêt à l'emploi.</p><a href="#" class="text-primary text-sm font-medium">Obtenir le template →</a></div>
+          <div class="bg-grayLight/40 rounded-2xl p-6 text-center hover-lift border"><div class="text-4xl mb-3">✅</div><h3 class="font-bold">Checklist digitalisation PME</h3><p class="text-xs text-gray-500 my-1">10 étapes clés</p><p class="text-xs text-gray-400 mt-1 mb-3">Ne rien oublier : sites, CRM, automatisation, marketing, tout ce qu'il faut pour digitaliser.</p><a href="#" class="text-primary text-sm font-medium">Télécharger la checklist →</a></div>
+          <div class="bg-grayLight/40 rounded-2xl p-6 text-center hover-lift border"><div class="text-4xl mb-3">🎓</div><h3 class="font-bold">Masterclass IA replay</h3><p class="text-xs text-gray-500 my-1">Vidéo 45min</p><p class="text-xs text-gray-400 mt-1 mb-3">Les leviers concrets de l'IA pour les PME africaines : cas pratiques et outils.</p><a href="#" class="text-primary text-sm font-medium">Regarder gratuitement →</a></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESSUS DE VENTE TRANSPARENT (VERSION AMÉLIORÉE) -->
+    <section id="process" class="py-24 px-6 md:px-12 bg-grayLight/30">
+      <div class="max-w-7xl mx-auto text-center">
+        <div class="inline-flex items-center gap-2 bg-primary/10 rounded-full px-4 py-1.5 text-primary text-sm font-medium mb-4">
+          <span>🔓 Transparence totale</span>
+        </div>
+        <h2 class="text-3xl md:text-5xl font-bold">Notre processus d'accompagnement</h2>
+        <p class="text-grayText max-w-2xl mx-auto mt-3">De la première prise de contact à la croissance continue, découvrez notre méthode éprouvée</p>
+        
+        <!-- Timeline avec connecteurs -->
+        <div class="relative mt-16">
+          <div class="absolute top-8 left-0 w-full h-0.5 bg-gradient-to-r from-primary/20 via-primary/40 to-primary/20 hidden lg:block"></div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-6 relative">
+            <div class="bg-white rounded-2xl p-5 premium-shadow hover-lift relative z-10 text-center group"><div class="w-14 h-14 rounded-full bg-primary/10 text-primary text-2xl font-bold flex items-center justify-center mx-auto group-hover:bg-primary group-hover:text-white transition-all duration-300">1</div><h4 class="font-bold text-lg mt-4">Appel découverte</h4><p class="text-xs text-gray-500 mt-1">15 min • Sans engagement</p><p class="text-sm text-gray-600 mt-2">On analyse vos besoins et objectifs.</p><div class="mt-3 text-xs text-primary/70 italic">"Premier contact très professionnel"</div></div>
+            <div class="bg-white rounded-2xl p-5 premium-shadow hover-lift relative z-10 text-center group"><div class="w-14 h-14 rounded-full bg-primary/10 text-primary text-2xl font-bold flex items-center justify-center mx-auto group-hover:bg-primary group-hover:text-white transition-all duration-300">2</div><h4 class="font-bold text-lg mt-4">Audit & proposition</h4><p class="text-xs text-gray-500 mt-1">Sous 48h</p><p class="text-sm text-gray-600 mt-2">Diagnostic complet + devis détaillé.</p><div class="mt-3 text-xs text-primary/70 italic">"Proposition très claire et structurée"</div></div>
+            <div class="bg-white rounded-2xl p-5 premium-shadow hover-lift relative z-10 text-center group"><div class="w-14 h-14 rounded-full bg-primary/10 text-primary text-2xl font-bold flex items-center justify-center mx-auto group-hover:bg-primary group-hover:text-white transition-all duration-300">3</div><h4 class="font-bold text-lg mt-4">Onboarding</h4><p class="text-xs text-gray-500 mt-1">1 heure</p><p class="text-sm text-gray-600 mt-2">Signature, accès outils, brief équipe.</p><div class="mt-3 text-xs text-primary/70 italic">"Mise en route ultra rapide"</div></div>
+            <div class="bg-white rounded-2xl p-5 premium-shadow hover-lift relative z-10 text-center group"><div class="w-14 h-14 rounded-full bg-primary/10 text-primary text-2xl font-bold flex items-center justify-center mx-auto group-hover:bg-primary group-hover:text-white transition-all duration-300">4</div><h4 class="font-bold text-lg mt-4">Déploiement agile</h4><p class="text-xs text-gray-500 mt-1">Sprints de 2 semaines</p><p class="text-sm text-gray-600 mt-2">Livraisons itératives, reporting régulier.</p><div class="mt-3 text-xs text-primary/70 italic">"Suivi hebdomadaire impeccable"</div></div>
+            <div class="bg-white rounded-2xl p-5 premium-shadow hover-lift relative z-10 text-center group"><div class="w-14 h-14 rounded-full bg-primary/10 text-primary text-2xl font-bold flex items-center justify-center mx-auto group-hover:bg-primary group-hover:text-white transition-all duration-300">5</div><h4 class="font-bold text-lg mt-4">Croissance continue</h4><p class="text-xs text-gray-500 mt-1">Optimisation permanente</p><p class="text-sm text-gray-600 mt-2">A/B testing, ajustements, scaling.</p><div class="mt-3 text-xs text-primary/70 italic">"ROI en augmentation constante"</div></div>
+          </div>
+        </div>
+        
+        <div class="flex flex-wrap justify-center gap-3 mt-12"><span class="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full text-xs font-medium shadow-sm border">📋 Devis sous 48h</span><span class="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full text-xs font-medium shadow-sm border">🔓 Sans engagement sur l'audit</span><span class="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full text-xs font-medium shadow-sm border">📊 Reporting hebdomadaire</span><span class="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full text-xs font-medium shadow-sm border">💬 Support WhatsApp dédié</span></div>
+        
+        <div class="mt-12 flex flex-wrap gap-4 justify-center"><a href="https://wa.me/message/ZNLENKTKNWDHE1?text=Bonjour%20SMIX%2C%20je%20souhaite%20d%C3%A9marrer%20mon%20accompagnement%20avec%20votre%20agence.%20Pouvons-nous%20discuter%20%3F" target="_blank" class="bg-darkText text-white px-8 py-3.5 rounded-full font-semibold hover:bg-primary transition-all shadow-md hover:shadow-xl flex items-center gap-2">📞 Démarrer mon accompagnement →</a><a href="#" class="border border-borderGray bg-white px-8 py-3.5 rounded-full font-medium hover:border-primary transition-all flex items-center gap-2">📄 Télécharger la brochure process</a></div>
+      </div>
+    </section>
+
+    <!-- SECTION ÉTUDES DE CAS avec 4 cas clients -->
+    <section id="casestudy" class="py-24 px-6 md:px-12 bg-white">
+      <div class="max-w-7xl mx-auto"><div class="text-center mb-12"><h2 class="text-3xl md:text-5xl font-bold">Ils ont accéléré avec SMIX</h2><p class="text-grayText">Résultats concrets sur des PME africaines</p></div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="p-5 border border-gray-100 rounded-2xl premium-shadow bg-gradient-to-br from-white to-grayLight/20 hover-lift"><div class="flex justify-between items-start"><span class="bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full">Logistique</span><span class="text-2xl">📦</span></div><h3 class="text-lg font-bold mt-3">+42% de leads qualifiés</h3><p class="text-xs text-gray-500 mt-1">Entreprise de transport</p><p class="text-gray-500 text-sm mt-2">CRM + automatisation WhatsApp : prospection automatisée, -80% temps de réponse.</p><p class="text-primary font-semibold text-xs mt-3">→ Étude disponible</p></div>
+          <div class="p-5 border border-gray-100 rounded-2xl premium-shadow bg-gradient-to-br from-white to-grayLight/20 hover-lift"><div class="flex justify-between items-start"><span class="bg-secondary/10 text-secondary text-xs font-bold px-3 py-1 rounded-full">E-commerce</span><span class="text-2xl">🛍️</span></div><h3 class="text-lg font-bold mt-3">CA ×2.5 en 6 mois</h3><p class="text-xs text-gray-500 mt-1">Marque cosmétiques</p><p class="text-gray-500 text-sm mt-2">Refonte site + Meta Ads + tunnel WhatsApp : ventes et panier moyen boostés.</p><p class="text-primary font-semibold text-xs mt-3">→ Lire case study</p></div>
+          <div class="p-5 border border-gray-100 rounded-2xl premium-shadow bg-gradient-to-br from-white to-grayLight/20 hover-lift"><div class="flex justify-between items-start"><span class="bg-accent/10 text-accent text-xs font-bold px-3 py-1 rounded-full">Agroalimentaire</span><span class="text-2xl">🌾</span></div><h3 class="text-lg font-bold mt-3">+120% de ventes B2B</h3><p class="text-xs text-gray-500 mt-1">Transformation agricole</p><p class="text-gray-500 text-sm mt-2">Automatisation des commandes WhatsApp + CRM : fidélisation client ×3.</p><p class="text-primary font-semibold text-xs mt-3">→ Étude complète</p></div>
+          <div class="p-5 border border-gray-100 rounded-2xl premium-shadow bg-gradient-to-br from-white to-grayLight/20 hover-lift"><div class="flex justify-between items-start"><span class="bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full">Fintech</span><span class="text-2xl">💰</span></div><h3 class="text-lg font-bold mt-3">+55% d'utilisateurs actifs</h3><p class="text-xs text-gray-500 mt-1">Microfinance digitale</p><p class="text-gray-500 text-sm mt-2">Dashboard IA + campagnes d'acquisition : onboarding simplifié, rétention améliorée.</p><p class="text-primary font-semibold text-xs mt-3">→ Demander l'étude</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ avec accordéon -->
+    <section id="faq" class="py-20 px-6 md:px-12 bg-grayLight/20">
+      <div class="max-w-4xl mx-auto"><h2 class="text-3xl md:text-4xl font-bold text-center">Questions fréquentes</h2>
+        <div class="mt-12 space-y-4">
+          <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden"><div class="faq-question p-5 font-bold flex justify-between items-center"><span>Quels types de PME accompagnez-vous ?</span><span class="text-primary text-xl">+</span></div><div class="faq-answer px-5 pb-5 text-gray-600">Nous travaillons avec des PME de tous secteurs : commerce, services, logistique, e-commerce, santé, éducation, immobilier. Nos solutions sont modulables.</div></div>
+          <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden"><div class="faq-question p-5 font-bold flex justify-between items-center"><span>Proposez-vous des formations ?</span><span class="text-primary text-xl">+</span></div><div class="faq-answer px-5 pb-5 text-gray-600">Oui, dans le cadre de l’accompagnement Augmentée ou en prestation dédiée : formations aux outils IA, CRM, automatisation pour vos équipes.</div></div>
+          <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden"><div class="faq-question p-5 font-bold flex justify-between items-center"><span>Quels sont les délais de mise en place ?</span><span class="text-primary text-xl">+</span></div><div class="faq-answer px-5 pb-5 text-gray-600">Un site vitrine : 2-3 semaines. Automatisation simple : 1 semaine. Pack Growth complet : 4 à 6 semaines selon complexité.</div></div>
+          <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden"><div class="faq-question p-5 font-bold flex justify-between items-center"><span>Puis-je démarrer avec un petit budget ?</span><span class="text-primary text-xl">+</span></div><div class="faq-answer px-5 pb-5 text-gray-600">Absolument. Notre pack PME Starter à 250k FCFA/mois est conçu pour un lancement progressif sans gros investissement initial.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA FINAL avec deux boutons -->
+    <section id="contact" class="py-24 px-6 md:px-12 bg-gradient-to-r from-primary/5 via-white to-secondary/5">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-3xl md:text-5xl font-bold">Prêt à accélérer votre croissance ?</h2>
+        <p class="text-grayText text-lg mt-5">Audit offert pour toute première prise de contact.</p>
+        <div class="mt-10 flex flex-wrap gap-5 justify-center">
+          <a href="https://wa.me/message/ZNLENKTKNWDHE1?text=Bonjour%20SMIX%2C%20je%20souhaite%20r%C3%A9server%20un%20appel%20strat%C3%A9gique%20pour%20mon%20entreprise." target="_blank" class="bg-darkText text-white px-10 py-4 rounded-full text-lg font-semibold shadow-xl hover:bg-primary transition hover:scale-105">Réserver un appel stratégique →</a>
+          <a href="https://wa.me/message/ZNLENKTKNWDHE1?text=Bonjour%20SMIX%2C%20je%20souhaite%20demander%20un%20devis%20personnalis%C3%A9%20pour%20mon%20entreprise." target="_blank" class="border border-borderGray bg-white/80 backdrop-blur-sm px-8 py-4 rounded-full font-semibold hover:border-primary hover:bg-primary/5 transition">Demander un devis personnalisé</a>
+        </div>
+        <p class="text-sm text-gray-400 mt-6">Réponse sous 24h — accompagnement premium sur mesure pour PME africaines.</p>
+      </div>
+    </section>
+
+    <!-- FOOTER avec liens cliquables -->
+    <footer class="border-t border-gray-100 py-12 px-6 bg-white">
+      <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-8">
+        <div><div class="flex items-center gap-2"><div class="w-7 h-7 rounded-lg bg-gradient-to-br from-primary to-secondary"></div><span class="font-heading font-bold text-xl">SMIX</span></div><p class="text-sm text-gray-500 mt-3">Agence de croissance digitale & automatisation pour PME africaines.</p></div>
+        <div><h4 class="font-bold mb-3">Services</h4><ul class="text-sm text-gray-500 space-y-1"><li><a href="#services" class="hover:text-primary transition">Sites Web</a></li><li><a href="#services" class="hover:text-primary transition">Automatisation IA</a></li><li><a href="#services" class="hover:text-primary transition">CRM & Marketing</a></li></ul></div>
+        <div><h4 class="font-bold mb-3">Ressources</h4><ul class="text-sm text-gray-500 space-y-1"><li><a href="#casestudy" class="hover:text-primary transition">Blog & Guides</a></li><li><a href="#casestudy" class="hover:text-primary transition">Études de cas</a></li><li><a href="#faq" class="hover:text-primary transition">Glossaire IA</a></li></ul></div>
+        <div><h4 class="font-bold mb-3">Contact</h4><p class="text-sm text-gray-500">contact@smix.io<br>Dakar, Sénégal / Douala, Cameroun</p></div>
+      </div>
+      <div class="text-center text-xs text-gray-400 border-t border-gray-100 pt-8 mt-8">© 2026 SMIX — Digital Growth & Automation Agency</div>
+      <!-- Mobile scroll to top button (only visible in footer on mobile) -->
+      <div class="flex justify-center mt-6 md:hidden">
+        <button id="mobileScrollTopBtn" class="bg-gradient-to-r from-primary to-secondary text-white px-5 py-2 rounded-full text-sm font-semibold shadow-md flex items-center gap-2 transition hover:scale-105">
+          ↑ Remonter en haut
+        </button>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // ROI Calculator
+    const leadsSlider = document.getElementById('leadsSlider');
+    const basketSlider = document.getElementById('basketSlider');
+    const leadsValue = document.getElementById('leadsValue');
+    const basketValue = document.getElementById('basketValue');
+    const roiResult = document.getElementById('roiResult');
+    function updateROI() {
+      if(leadsSlider && basketSlider) {
+        let leads = parseInt(leadsSlider.value);
+        let basket = parseInt(basketSlider.value);
+        if(leadsValue) leadsValue.innerText = leads;
+        if(basketValue) basketValue.innerText = basket.toLocaleString();
+        let estimatedRevenue = Math.round(leads * basket * 0.35);
+        if(roiResult) roiResult.innerText = `+${estimatedRevenue.toLocaleString()} FCFA`;
+      }
+    }
+    if(leadsSlider && basketSlider) {
+      leadsSlider.addEventListener('input', updateROI);
+      basketSlider.addEventListener('input', updateROI);
+      updateROI();
+    }
+
+    // Counters
+    const counters = document.querySelectorAll('.counter');
+    let animated = false;
+    const animateNumbers = () => {
+      counters.forEach(counter => {
+        const target = +counter.getAttribute('data-target');
+        let current = 0;
+        const increment = target / 50;
+        const update = () => {
+          current += increment;
+          if(current < target) { counter.innerText = Math.ceil(current); requestAnimationFrame(update); }
+          else counter.innerText = target;
+        };
+        update();
+      });
+    };
+    const observerStats = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if(entry.isIntersecting && !animated) { animated = true; animateNumbers(); } });
+    }, { threshold: 0.5 });
+    const statsSection = document.querySelector('#socialproof');
+    if(statsSection) observerStats.observe(statsSection);
+
+    // FAQ Accordion
+    const faqItems = document.querySelectorAll('.faq-question');
+    faqItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const answer = item.nextElementSibling;
+        const icon = item.querySelector('span:last-child');
+        answer.classList.toggle('open');
+        if(answer.classList.contains('open')) {
+          icon.innerHTML = '−';
+        } else {
+          icon.innerHTML = '+';
+        }
+      });
+    });
+
+    // Dynamic testimonials by service
+    const testimonials = {
+      web: { text: "⭐ 'SMIX a transformé notre présence en ligne. Notre nouveau site vitrine nous a apporté +35% de demandes de devis en 3 mois.' — Amadou D., Directeur PME", author: "Amadou D., Directeur" },
+      auto: { text: "🤖 'L'automatisation WhatsApp mise en place par SMIX nous fait gagner 20h par mois. Nos leads sont qualifiés automatiquement.' — Fatou S., Responsable commerciale", author: "Fatou S., Commerciale" },
+      crm: { text: "📊 'Le CRM sur mesure a révolutionné notre suivi client. Notre équipe vend 2x plus avec le même effort.' — Ibrahim K., DG", author: "Ibrahim K., DG" },
+      marketing: { text: "📣 'Les campagnes Meta Ads gérées par SMIX ont généré un ROI de 320% en 4 mois. Une vraie expertise.' — Marie C., Growth Manager", author: "Marie C., Growth" },
+      cm: { text: "📱 'Notre communauté Instagram a gagné +5000 abonnés qualifiés en 6 mois grâce à leur stratégie de contenu.' — Ousmane B., Community Manager", author: "Ousmane B., CM" },
+      content: { text: "🎨 'Les créations visuelles et les Reels produits par SMIX ont boosté notre engagement de +180%. Un travail d'exception.' — Aïcha N., Brand Manager", author: "Aïcha N., Brand" },
+      consulting: { text: "🧠 'L'accompagnement stratégique de SMIX nous a permis de structurer notre transformation IA. Aujourd'hui, nous sommes 2 ans en avance.' — Cheikh L., CEO", author: "Cheikh L., CEO" }
+    };
+    const btns = document.querySelectorAll('.service-btn');
+    const testimonialDiv = document.getElementById('dynamic-testimonial');
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const service = btn.getAttribute('data-service');
+        if(testimonials[service]) {
+          testimonialDiv.innerHTML = `<div class="italic">“${testimonials[service].text}”</div><div class="mt-3 text-right text-sm font-semibold text-primary">— ${testimonials[service].author}</div>`;
+        } else {
+          testimonialDiv.innerHTML = `<div class="italic">“${testimonials.web.text}”</div><div class="mt-3 text-right text-sm font-semibold text-primary">— ${testimonials.web.author}</div>`;
+        }
+      });
+    });
+
+    // Scroll to top functionality
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    const mobileScrollTopBtn = document.getElementById('mobileScrollTopBtn');
+    const logoHomeLink = document.getElementById('logoHomeLink');
+    
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    if(scrollTopBtn) scrollTopBtn.addEventListener('click', scrollToTop);
+    if(mobileScrollTopBtn) mobileScrollTopBtn.addEventListener('click', scrollToTop);
+    if(logoHomeLink) logoHomeLink.addEventListener('click', scrollToTop);
+    
+    // Show/hide desktop scroll button based on scroll position
+    window.addEventListener('scroll', () => {
+      if(scrollTopBtn) {
+        if(window.scrollY > 500) {
+          scrollTopBtn.classList.add('visible');
+        } else {
+          scrollTopBtn.classList.remove('visible');
+        }
+      }
+    });
+
+    // scroll reveal
+    const fadeElements = document.querySelectorAll('.bg-white, .glass-card, .rounded-3xl, .border, .bg-grayLight\\/30, .bg-grayLight\\/40');
+    const fadeObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { if(entry.isIntersecting) { entry.target.style.opacity = '1'; entry.target.style.transform = 'translateY(0)'; } }); }, { threshold: 0.1 });
+    fadeElements.forEach(el => { el.style.opacity = '0'; el.style.transform = 'translateY(20px)'; el.style.transition = 'opacity 0.5s ease, transform 0.5s ease'; fadeObserver.observe(el); });
+  </script>
+</body>
+</html>
